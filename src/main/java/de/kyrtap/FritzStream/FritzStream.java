@@ -7,10 +7,20 @@ import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 
+/** Representation of DVB-C streams collected from FRITZ!Box device.
+ * @author kyrtap
+ * @version 1.0.0
+ */
 public class FritzStream {
     private String username, password;
     private SessionHandler sessionHandler;
 
+    /**
+     * Creates new FritzStream instance for given FRITZ!Box credentials.
+     * @param username The username for the FRITZ!Box web interface.
+     * @param password The password for the FRITZ!Box web interface.
+     * @throws Exception In case connection could not be established, e.g. the credentials were declined.
+     */
     public FritzStream(String username, String password) throws Exception {
         this.username = username;
         this.password = password;
@@ -19,6 +29,10 @@ public class FritzStream {
     }
 
 
+    /**
+     * Get list of all DVB-C streams obtained from the FRITZ!Box device.
+     * @return List of Stream instances.
+     */
     public ArrayList<Stream> getStreams() {
         ArrayList<Stream> ret = new ArrayList();
         try {
@@ -47,6 +61,11 @@ public class FritzStream {
         return ret;
     }
 
+    /**
+     * Convert StreamType to String.
+     * @param type The requested stream type.
+     * @return The converted result.
+     */
     private String getParam(StreamType type) {
         switch (type) {
             case HDTV:
@@ -60,6 +79,10 @@ public class FritzStream {
         }
     }
 
+    /**
+     * Terminates the current session on the FRITZ!Box device.
+     * @throws Exception In case session cannot be terminated, e.g. session has expired.
+     */
     public void terminateConnection() throws Exception {
         sessionHandler.terminateConnection();
     }

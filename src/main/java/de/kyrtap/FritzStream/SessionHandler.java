@@ -6,14 +6,28 @@ import org.jsoup.nodes.Document;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 
+/** Supplies methods to deal with streams from a FRITZ!Box cable device.
+ * @author kyrtap
+ * @version 1.0.0
+ */
 public class SessionHandler {
     private String username, password, SID;
 
+    /**
+     * Creates a new handler instance.
+     * @param username Username to connect to the FRITZ!Box device.
+     * @param password Password for the FRITZ!Box web interface.
+     */
     public SessionHandler(String username, String password) {
         this.username = username;
         this.password = password;
     }
 
+    /**
+     * Generate valid session ID using given credentials to authenticate to FRITZ!Box device.
+     * @return Generated session ID.
+     * @throws Exception In case an error occurs, e.g. the credentials were declined.
+     */
     public String generateSID() throws Exception {
         String url = "http://fritz.box/login_sid.lua";
         Document doc = Jsoup.connect(url).get();
@@ -38,10 +52,21 @@ public class SessionHandler {
         return SID;
     }
 
+    /**
+     * Creates response to authentication challenge sent by FRITZ!Box device.
+     * @param challenge Challenge sent by FRITZ!Box device.
+     * @param password Password used to generate response hash.
+     * @return Solved challenge hash to be sent back.
+     */
     private String createResponse(String challenge, String password) {
         return challenge + "-" + createMD5Hash(challenge + "-" + password);
     }
 
+    /**
+     * Generates MD5 hash for given input.
+     * @param input The input to be hashed.
+     * @return The hashed output.
+     */
     private String createMD5Hash(String input) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
@@ -53,6 +78,10 @@ public class SessionHandler {
         }
     }
 
+    /**
+     * Terminates ongoing sessions.
+     * @throws Exception In case an error occurs, e.g. no session with given ID exists.
+     */
     public void terminateConnection() throws Exception {
         String url = "http://fritz.box/login_sid.lua?logout=1&sid=" + SID;
         Document doc = Jsoup.connect(url).get();
