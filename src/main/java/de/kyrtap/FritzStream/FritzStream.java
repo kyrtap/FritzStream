@@ -1,3 +1,5 @@
+package de.kyrtap.FritzStream;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -18,7 +20,7 @@ public class FritzStream {
 
 
     public ArrayList<Stream> getStreams() {
-        ArrayList<Stream> ret = new ArrayList<>();
+        ArrayList<Stream> ret = new ArrayList();
         try {
             for (StreamType type : StreamType.values()) {
                 Document doc = Jsoup.connect("http://fritz.box/data.lua")

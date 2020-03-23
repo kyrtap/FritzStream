@@ -1,3 +1,5 @@
+package de.kyrtap.FritzStream;
+
 public class Stream {
     private String name, URL, imageSource;
     private StreamType type;
