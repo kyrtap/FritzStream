@@ -47,10 +47,9 @@ public class FritzStream {
                 Elements as = uiList.children();
 
                 for (Element a : as) {
+                    String title = a.attr("title");
                     String link = "http://fritz.box/" + a.attr("href");
-                    Element span = a.children().first();
-                    String title = span.attr("title");
-                    Element img = span.children().first();
+                    Element img = a.children().first();
                     String imgSource = img.attr("src");
                     ret.add(new Stream(title, type, link, imgSource));
                 }
